@@ -1,414 +1,227 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nova Aba</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Guia</title>
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #1f2937;
-            overflow: hidden;
-            position: relative;
-            padding: 2rem;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        .background-blur {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.3;
-            pointer-events: none;
-        }
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
 
-        .blur-1 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            top: -200px;
-            right: -100px;
-        }
+.clock {
+    font-size: 72px;
+    font-weight: 300;
+    color: white;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
 
-        .blur-2 {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            bottom: -200px;
-            left: -100px;
-        }
+.google-logo {
+    font-size: 64px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    letter-spacing: -2px;
+}
 
-        .container {
-            z-index: 1;
-            text-align: center;
-            max-width: 900px;
-            width: 100%;
-            animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+.google-logo span:nth-child(1) { color: #4285F4; }
+.google-logo span:nth-child(2) { color: #EA4335; }
+.google-logo span:nth-child(3) { color: #FBBC05; }
+.google-logo span:nth-child(4) { color: #4285F4; }
+.google-logo span:nth-child(5) { color: #34A853; }
+.google-logo span:nth-child(6) { color: #EA4335; }
 
-        @keyframes fadeIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(10px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
-        }
+.apps-container {
+    display: grid;
+    grid-template-columns: repeat(5, 100px);
+    gap: 30px;
+    max-width: 650px;
+}
 
-        .greeting {
-            font-size: 1.125rem;
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-            color: #6b7280;
-            letter-spacing: -0.01em;
-        }
+.app-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
 
-        .time-wrapper {
-            margin-bottom: 0.5rem;
-        }
+.app-link:hover {
+    transform: translateY(-5px);
+}
 
-        .time {
-            font-size: 7rem;
-            font-weight: 300;
-            letter-spacing: -0.04em;
-            color: #111827;
-            line-height: 1;
-        }
+.app-icon {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: box-shadow 0.2s;
+}
 
-        .date {
-            font-size: 1rem;
-            margin-bottom: 4rem;
-            color: #6b7280;
-            font-weight: 400;
-            letter-spacing: -0.01em;
-        }
+.app-link:hover .app-icon {
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+}
 
-        .search-container {
-            margin-bottom: 4rem;
-            position: relative;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+.app-icon img {
+    width: 48px;
+    height: 48px;
+}
 
-        .search-wrapper {
-            position: relative;
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .search-wrapper:focus-within {
-            transform: translateY(-2px);
-        }
-
-        .search-box {
-            width: 100%;
-            padding: 1rem 3.5rem 1rem 1.5rem;
-            font-size: 1rem;
-            border: 1.5px solid #e5e7eb;
-            border-radius: 100px;
-            background: white;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            color: #111827;
-            font-family: 'Inter', sans-serif;
-            font-weight: 400;
-        }
-
-        .search-box:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15), 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .search-box::placeholder {
-            color: #9ca3af;
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 1.5rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            pointer-events: none;
-        }
-
-        .search-icon svg {
-            width: 100%;
-            height: 100%;
-            stroke: #9ca3af;
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .quote-section {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            border: 1.5px solid #f3f4f6;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .quote-section:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-color: #e5e7eb;
-        }
-
-        .quote-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #667eea;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .quote-content {
-            font-size: 1.125rem;
-            line-height: 1.7;
-            color: #374151;
-            font-weight: 400;
-            letter-spacing: -0.01em;
-        }
-
-        .quote-author {
-            margin-top: 1rem;
-            font-size: 0.875rem;
-            color: #6b7280;
-            font-weight: 500;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #e5e7eb;
-            border-top-color: #667eea;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .location-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: white;
-            border-radius: 100px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            border: 1.5px solid #f3f4f6;
-            font-size: 0.875rem;
-            color: #6b7280;
-            margin-top: 3rem;
-        }
-
-        .location-icon {
-            width: 14px;
-            height: 14px;
-        }
-
-        .location-icon svg {
-            width: 100%;
-            height: 100%;
-            stroke: #9ca3af;
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        @media (max-width: 768px) {
-            .time {
-                font-size: 4.5rem;
-            }
-            
-            .greeting {
-                font-size: 1rem;
-            }
-
-            .quote-section {
-                padding: 1.5rem;
-            }
-
-            .quote-content {
-                font-size: 1rem;
-            }
-        }
-    </style>
+.app-name {
+    color: white;
+    font-size: 13px;
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+</style>
 </head>
+
 <body>
-    <div class="background-blur blur-1"></div>
-    <div class="background-blur blur-2"></div>
-    
-    <div class="container">
-        <div class="greeting" id="greeting">Bom dia, Professor Victor Manoel</div>
-        
-        <div class="time-wrapper">
-            <div class="time" id="time">00:00</div>
-        </div>
-        
-        <div class="date" id="date">Carregando...</div>
 
-        <div class="search-container">
-            <form id="searchForm">
-                <div class="search-wrapper">
-                    <input 
-                        type="text" 
-                        class="search-box" 
-                        id="searchInput"
-                        placeholder="Pesquisar no Google"
-                        autocomplete="off"
-                    >
-                    <span class="search-icon">
-                        <svg viewBox="0 0 24 24">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <path d="m21 21-4.35-4.35"></path>
-                        </svg>
-                    </span>
-                </div>
-            </form>
-        </div>
+<div class="clock" id="clock"></div>
 
-        <div class="quote-section">
-            <div class="quote-label">Pensamento do Dia</div>
-            <div class="quote-content" id="quote">
-                <span class="loading"></span>
-            </div>
-            <div class="quote-author" id="quoteAuthor"></div>
-        </div>
+<div class="google-logo">
+    <span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span>
+</div>
 
-        <div class="location-badge">
-            <span class="location-icon">
-                <svg viewBox="0 0 24 24">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-            </span>
-            Princesa Isabel, Paraíba
-        </div>
+<div class="apps-container">
+
+<a href="https://drive.google.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=drive.google.com">
     </div>
+    <div class="app-name">Drive</div>
+</a>
 
-    <script>
-        // Saudação personalizada
-        function updateGreeting() {
-            const hour = new Date().getHours();
-            let greeting;
-            
-            if (hour < 12) {
-                greeting = 'Bom dia, Professor Victor Manoel';
-            } else if (hour < 18) {
-                greeting = 'Boa tarde, Professor Victor Manoel';
-            } else {
-                greeting = 'Boa noite, Professor Victor Manoel';
-            }
-            
-            document.getElementById('greeting').textContent = greeting;
-        }
+<a href="https://www.youtube.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=youtube.com">
+    </div>
+    <div class="app-name">YouTube</div>
+</a>
 
-        // Atualizar relógio
-        function updateTime() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('time').textContent = `${hours}:${minutes}`;
-        }
+<a href="https://photos.google.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=photos.google.com">
+    </div>
+    <div class="app-name">Fotos</div>
+</a>
 
-        // Atualizar data
-        function updateDate() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            };
-            const dateStr = now.toLocaleDateString('pt-BR', options);
-            document.getElementById('date').textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
-        }
+<a href="https://messages.google.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=messages.google.com">
+    </div>
+    <div class="app-name">Mensagens</div>
+</a>
 
-        // Busca no Google
-        document.getElementById('searchForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const query = document.getElementById('searchInput').value;
-            if (query.trim()) {
-                window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-            }
-        });
+<a href="https://meet.google.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=meet.google.com">
+    </div>
+    <div class="app-name">Meet</div>
+</a>
 
-        // Obter citação do dia via RSS
-        async function getQuote() {
-            try {
-                // Usando API pública de citações em português
-                const response = await fetch('https://api.quotable.io/quotes/random?tags=education,wisdom,inspirational&maxLength=150');
-                const data = await response.json();
-                
-                if (data && data.length > 0) {
-                    const quote = data[0];
-                    
-                    // Traduzir para português usando dicionário básico ou manter em inglês
-                    document.getElementById('quote').textContent = quote.content;
-                    document.getElementById('quoteAuthor').textContent = `— ${quote.author}`;
-                } else {
-                    throw new Error('No quote found');
-                }
-            } catch (error) {
-                // Fallback para citações locais em português
-                const quotes = [
-                    { text: "A educação é a arma mais poderosa que você pode usar para mudar o mundo.", author: "Nelson Mandela" },
-                    { text: "Educar é crescer. E crescer é viver. Educação é, assim, vida no sentido mais autêntico da palavra.", author: "Anísio Teixeira" },
-                    { text: "O professor mediocre conta. O bom professor explica. O professor superior demonstra. O grande professor inspira.", author: "William Arthur Ward" },
-                    { text: "A mente que se abre a uma nova ideia jamais voltará ao seu tamanho original.", author: "Albert Einstein" },
-                    { text: "Ensinar não é transferir conhecimento, mas criar as possibilidades para a sua própria produção ou a sua construção.", author: "Paulo Freire" },
-                    { text: "A educação não transforma o mundo. Educação muda as pessoas. Pessoas transformam o mundo.", author: "Paulo Freire" },
-                    { text: "A verdadeira educação consiste em pôr a descoberto ou fazer atualizar o melhor de uma pessoa.", author: "Mahatma Gandhi" },
-                    { text: "O objetivo da educação é a virtude e o desejo de converter-se num bom cidadão.", author: "Platão" },
-                    { text: "Feliz aquele que transfere o que sabe e aprende o que ensina.", author: "Cora Coralina" },
-                    { text: "A educação é o ponto em que decidimos se amamos o mundo o bastante para assumirmos a responsabilidade por ele.", author: "Hannah Arendt" }
-                ];
-                
-                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-                document.getElementById('quote').textContent = randomQuote.text;
-                document.getElementById('quoteAuthor').textContent = `— ${randomQuote.author}`;
-            }
-        }
+<a href="https://mail.google.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=mail.google.com">
+    </div>
+    <div class="app-name">Gmail</div>
+</a>
 
-        // Inicializar
-        updateGreeting();
-        updateTime();
-        updateDate();
-        getQuote();
-        
-        setInterval(() => {
-            updateTime();
-            updateGreeting();
-        }, 1000);
+<a href="https://music.youtube.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=music.youtube.com">
+    </div>
+    <div class="app-name">YT Music</div>
+</a>
 
-        // Atualizar citação a cada 6 horas
-        setInterval(getQuote, 6 * 60 * 60 * 1000);
-    </script>
+<a href="https://www.youtubekids.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=youtubekids.com">
+    </div>
+    <div class="app-name">YT Kids</div>
+</a>
+
+<a href="https://maps.google.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=maps.google.com">
+    </div>
+    <div class="app-name">Maps</div>
+</a>
+
+<a href="https://calendar.google.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=calendar.google.com">
+    </div>
+    <div class="app-name">Calendário</div>
+</a>
+
+<a href="https://gemini.google.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=gemini.google.com">
+    </div>
+    <div class="app-name">Gemini</div>
+</a>
+
+<a href="https://one.google.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=one.google.com">
+    </div>
+    <div class="app-name">One</div>
+</a>
+
+<a href="https://classroom.google.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=classroom.google.com">
+    </div>
+    <div class="app-name">Classroom</div>
+</a>
+
+<a href="https://chrome.google.com/webstore" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=chrome.google.com">
+    </div>
+    <div class="app-name">Web Store</div>
+</a>
+
+<a href="https://passwords.google.com" class="app-link">
+    <div class="app-icon">
+        <img src="https://www.google.com/s2/favicons?sz=128&domain=passwords.google.com">
+    </div>
+    <div class="app-name">Senhas</div>
+</a>
+
+</div>
+
+<script>
+function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('clock').textContent = h + ':' + m;
+}
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+
 </body>
 </html>
